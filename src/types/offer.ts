@@ -12,6 +12,7 @@ export type Offer = {
   bedrooms: number;
   goods: string[];
   host: Host;
+  previewImage: string;
   images: string[];
   maxAdults: number;
 }

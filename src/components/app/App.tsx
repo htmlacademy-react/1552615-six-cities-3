@@ -8,14 +8,16 @@ import OfferPage from '../../pages/offer-page/offer-page';
 import { AuthStatus, Pages } from '../../utils/const';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
-import { Review } from '../../types/review';
+import { useAppSelector } from '../../hooks';
+import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
-type Props = {
-  reviews: Review[];
-};
+export default function App(): JSX.Element {
 
-export default function App(props: Props): JSX.Element {
-  const { reviews } = props;
+  const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
+
+  if (isOffersLoading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <HelmetProvider>
@@ -31,7 +33,7 @@ export default function App(props: Props): JSX.Element {
                 </PrivateRoute>
               }
             />
-            <Route path={Pages.Offer} element={<OfferPage reviews={reviews} />} />
+            <Route path={Pages.Offer} element={<OfferPage />} />
             <Route path={Pages.NotFound} element={<NotFoundPage />} />
           </Route>
         </Routes>

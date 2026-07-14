@@ -1,4 +1,4 @@
-import { Offer } from '../types/offer';
+import { City, Offer } from '../types/offer';
 import { SortDirection } from './const';
 
 export const sortByPriceAsc = (a: Offer, b: Offer) => {
@@ -46,3 +46,6 @@ export const getSortBy = (offers: Offer[], sortBy: string): Offer[] => {
 };
 
 export const getRating = (rating: number) => (rating * 100) / 5;
+
+export const getOffersByCity = (city: City, offers: Offer[]) =>
+  offers.filter((offer: Offer) => offer.city.name === city.name);
