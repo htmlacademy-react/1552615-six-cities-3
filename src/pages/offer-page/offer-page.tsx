@@ -6,19 +6,15 @@ import Reviews from '../../components/reviews/reviews/reviews';
 import Rating from '../../components/offer/rating/rating';
 import Map from '../../components/map/map';
 import { Helmet } from 'react-helmet-async';
-import { Review } from '../../types/review';
 import NearPlaces from '../../components/offer/near-places/near-places';
 import { useState } from 'react';
 import { Offer } from '../../types/offer';
 import { useAppSelector } from '../../hooks';
 
-type Props = {
-  reviews: Review[];
-}
-
-export default function OfferPage({ reviews}: Props): JSX.Element {
+export default function OfferPage(): JSX.Element {
   const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(undefined);
   const offers = useAppSelector((state) => state.offers);
+  const reviews = useAppSelector((state) => state.reviews);
   const nearPlaces = offers.slice(0, 3);
 
   const onCardHover = (title: string) => {

@@ -7,19 +7,18 @@ import MainOffersList from '../../components/main-offers-list/main-offers-list';
 import CitiesList from '../../components/cities-list/citites-list';
 import { useAppSelector } from '../../hooks';
 import { SortDirection } from '../../utils/const';
-import { getSortBy} from '../../utils/helpers';
-
+import { getOffersByCity, getSortBy } from '../../utils/helpers';
 
 export default function MainPage(): JSX.Element {
-  const currentCity = useAppSelector((state) => state.city);
-  const offers = useAppSelector((state) => state.offers);
+  const city = useAppSelector((state) => state.city);
+  const stateOffers = useAppSelector((state) => state.offers);
   const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(undefined);
   const [isSortFormOpened, setSortFormOpened] = useState<boolean>(false);
   const [activeSort, setActiveSort] = useState<string>(SortDirection.Popular);
-  const [sortedOffers, setSortedOffers] = useState<Offer[]|undefined>(undefined);
+  const [offers, setOffers] = useState<Offer[]>(stateOffers);
 
   const onCardHover = (title: string) => {
-    const currentOffer = offers.find((offer) => offer.title === title);
+    const currentOffer = stateOffers.find((offer) => offer.title === title);
     setSelectedOffer(currentOffer);
   };
 
@@ -29,12 +28,13 @@ export default function MainPage(): JSX.Element {
 
   const onSortFormChange = (sortBy: string) => {
     setActiveSort(sortBy);
-    setSortedOffers(getSortBy(offers, sortBy));
+    setOffers(getSortBy([...offers], sortBy));
   };
 
   useEffect(() => {
-    setSortedOffers(offers);
-  }, [offers]);
+    setOffers(getOffersByCity(city, [...stateOffers]));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [city]);
 
   return (
     <main className="page__main page__main--index">
@@ -46,19 +46,19 @@ export default function MainPage(): JSX.Element {
         <CitiesList />
       </div>
       <div className="cities">
-        {sortedOffers && sortedOffers.length ?
+        {offers && offers.length ?
           (
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{sortedOffers ? sortedOffers.length : 0} places to stay in {currentCity.name}</b>
+                <b className="places__found">{offers ? offers.length : 0} places to stay in {city.name}</b>
                 <SortForm
                   activeSort={activeSort}
                   isSortFormOpened={isSortFormOpened}
                   onSortFormClick={onSortFormClick}
                   onSortFormChange={onSortFormChange}
                 />
-                <MainOffersList onCardHover={onCardHover} offers={sortedOffers}/>
+                <MainOffersList onCardHover={onCardHover} offers={offers} />
               </section>
               <div className="cities__right-section" >
                 <Map

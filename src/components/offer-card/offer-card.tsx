@@ -28,7 +28,7 @@ export default function OfferCard({ cardClassName, offer, onCardHover }: Props):
       )}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={`/offer/${offer.id}`}>
-          <img className="place-card__image" src={offer.images[0]} width="260" height="200" alt="Place image"></img>
+          <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image"></img>
         </Link>
       </div>
       <div className="place-card__info">

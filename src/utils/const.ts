@@ -8,6 +8,16 @@ export enum Pages {
   NotFound = '*'
 }
 
+export enum ApiRoute {
+  Offers = '/offers',
+  Offer = '/offers/{offerId}',
+  NearPlaces = '/offers/{offerId}/nearby',
+  Favorite = '/favorite',
+  Comments = '/comments/{offerId}',
+  Login = '/login',
+  Logout = '/logout'
+}
+
 export enum PageClassNames {
   Main = 'page--gray page--main',
   Login = 'page--gray page--login'
@@ -90,3 +100,5 @@ export const CITIES: City[] = [
 ];
 
 export const DEFAULT_CITY: City = CITIES[0];
+
+export const TIMEOUT_SHOW_ERROR = 2000;
